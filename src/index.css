@@ -1,0 +1,179 @@
+/* Global styles */
+body {
+  background: grey;
+  box-sizing: border-box;
+}
+
+main {
+  width: 100vw;
+  height: 100vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+button {
+  display: block;
+  border: none;
+  border-radius: 4px;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+}
+
+button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  font-weight: bold;
+}
+
+/* Root.tsx start*/
+.root-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.root-header {
+  text-align: center;
+  padding: 15px 10px;
+}
+
+.root-section {
+  width: 100%;
+  flex-grow: 1;
+  padding: 0 10px;
+  display: grid;
+  gap: 4px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.root-footer {
+  padding: 10px 0 0 0;
+}
+
+.root-footer button {
+  padding: 15px;
+}
+
+/* Root.tsx end */
+
+/* Investigator.tsx start */
+.investigator-main {
+  display: flex;
+  flex-direction: column;
+}
+.investigator-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+.investigator-link {
+  color: white;
+}
+.investigator-section {
+  padding: 10px;
+}
+.investigator-info {
+  margin-bottom: 4px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.investigator-info h1 {
+  font-size: 36px;
+}
+.investigator-info p {
+  font-size: 20px;
+}
+.investigator-abilities {
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.investigator-abilities p {
+  font-size: large;
+}
+.investigator-abilities-description {
+  margin-top: 3px;
+  line-height: 1;
+}
+.investigator-items {
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.investigator-items-title {
+  font-weight: bold;
+}
+
+.investigator-items-starting-items {
+  flex: 1;
+  text-align: end;
+}
+.investigator-stats {
+  padding: 8px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.stat-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stat {
+  font-weight: bold;
+  font-size: 30px;
+  padding: 4px 0;
+}
+
+.investigator-stat-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 8px;
+}
+.investigator-stat-button-container {
+  display: flex;
+  width: 100%;
+}
+.investigator-stat-button-container button {
+  border: none;
+  padding: 4px;
+}
+.minus-button {
+  margin-right: 1px;
+  border-radius: 8px 0 0 8px;
+}
+.add-button {
+
+  border-radius: 0 8px 8px 0;
+}
+
+.investigator-quick-commands {
+  display: flex;
+  gap: 4px;
+}
+
+.quick-button {
+  padding: 10px 8px;
+  flex: 1;
+}
+/* Investigator.tsx end */
