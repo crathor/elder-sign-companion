@@ -9,15 +9,17 @@ function Root() {
     const dispatch = useDispatch();
 
     return (
-        <main className="root-main">
+        <main className="root-main background-grid">
             <header className="root-header">
-                <h1 className="root-title">Select an Investigator</h1>
+                <div className="root-header-card">
+                    <h1 className="root-title">Select an Investigator</h1>
+                </div>
             </header>
             <section className="root-section">
                 {investigatorsData.map((investigator) => (
                     <button
                         key={investigator.id}
-                        className="button"
+                        className="select-investigator-button"
                         onClick={() => {
                             dispatch(selectInvestigator(investigator));
                             navigate(`investigator/${investigator.id}`);
@@ -28,7 +30,7 @@ function Root() {
                 ))}
             </section>
             <footer className="root-footer">
-                <button onClick={() => localStorage.clear()}>Reset Data</button>
+                <button onClick={() => localStorage.clear()}>Clear Saved Data</button>
             </footer>
         </main>
     );
