@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./routes/Root";
 import InvestigatorPage, { loader as investigatorLoader } from "./routes/Investigator";
