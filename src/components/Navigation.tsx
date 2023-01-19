@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/icons-material/Menu";
-import { Alert, Button, List, ListItem, Snackbar, SwipeableDrawer } from "@mui/material";
+import { Alert, Button, List, ListItem, Snackbar, Drawer } from "@mui/material";
 import { useMatch, useNavigate } from "react-router-dom";
 
 export default function Navigation() {
@@ -25,7 +25,7 @@ export default function Navigation() {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <SwipeableDrawer anchor="right" open={open} onOpen={() => setOpen(true)} onClose={() => setOpen(false)}>
+            <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
                 <List>
                     <ListItem>
                         <Button
@@ -49,7 +49,7 @@ export default function Navigation() {
                         </Button>
                     </ListItem>
                 </List>
-            </SwipeableDrawer>
+            </Drawer>
             <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={() => setOpenSnackbar(false)}>
                 <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: "100%" }}>
                     Storage cleared!
