@@ -1,4 +1,4 @@
-/* Global styles */
+Global styles */
 :root {
   --dark-brown: #322214;
   --brown: #4C443C;
@@ -229,4 +229,4 @@ button:hover, button:active {
   padding: 10px 8px;
   flex: 1;
 }
-/* Investigator.tsx end */
+/* Investigator.tsx end
