@@ -1,7 +1,6 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { Link, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import {
     decrementClueNotes,
     decrementElderSigns,
@@ -19,7 +18,7 @@ import { useEffect } from "react";
 import investigators from "../data/investigators";
 import { Investigator } from "../types";
 import { Box, Container } from "@mui/system";
-import { Button, Card, CardActions, CardContent, Divider, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Paper, Divider, Grid, IconButton, Typography } from "@mui/material";
 import Remove from "@mui/icons-material/Remove";
 import Add from "@mui/icons-material/Add";
 
@@ -30,6 +29,22 @@ export async function loader({ params }: LoaderFunctionArgs): Promise<Investigat
         throw new Response("No Investigator Found");
     }
     return investigator;
+}
+
+function RemoveButton({ onClick }: any) {
+    return (
+        <IconButton onClick={onClick} sx={{ color: "#FFF" }}>
+            <Remove />
+        </IconButton>
+    );
+}
+
+function AddButton({ onClick }: any) {
+    return (
+        <IconButton onClick={onClick} sx={{ color: "#FFF" }}>
+            <Add />
+        </IconButton>
+    );
 }
 
 export default function InvestigatorPage() {
@@ -48,93 +63,76 @@ export default function InvestigatorPage() {
 
     return (
         <Container sx={{ mt: 1 }}>
-            <Box>
-                <Typography variant="h2" component="h1">
+            <Paper sx={{ backgroundColor: "primary.main", px: 2, py: 1 }}>
+                <Typography variant="overline">{investigator?.title}</Typography>
+                <Typography variant="h3" component="h1">
                     {investigator?.name}
                 </Typography>
-                <Typography variant="h6" component="h2">
-                    {investigator?.title}
-                </Typography>
-            </Box>
-            <Divider sx={{ my: 1 }} />
-            <Box>
-                <Typography sx={{ fontWeight: 600 }}>{investigator?.ability}</Typography>
-                <Typography paragraph>{investigator?.abilityDescription}</Typography>
-            </Box>
-            <Divider sx={{ my: 1 }} />
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography sx={{ fontWeight: 600 }}>Starting Items</Typography>
-                <Typography paragraph>{investigator?.startingItems}</Typography>
-            </Box>
-            <Divider sx={{ my: 1 }} />
-            <Grid container>
-                <Grid item xs={6}>
-                    <Box sx={{ p: 1 }}>
-                        <Typography align="center">Sanity ({maxSanity})</Typography>
-                        <Typography variant="h3" sx={{ mt: 1 }} align="center">
-                            {investigator?.sanity}
-                        </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <IconButton onClick={() => dispatch(decrementSanity())}>
-                                <Remove />
-                            </IconButton>
-                            <IconButton onClick={() => dispatch(incrementSanity())}>
-                                <Add />
-                            </IconButton>
+                <Divider sx={{ my: 1 }} />
+                <Box>
+                    <Typography sx={{ fontWeight: 600 }}>{investigator?.ability}</Typography>
+                    <Typography variant="body2">{investigator?.abilityDescription}</Typography>
+                </Box>
+                <Divider sx={{ my: 1 }} />
+                <Box>
+                    <Typography sx={{ fontWeight: 600 }}>Starting Items</Typography>
+                    <Typography variant="body2">{investigator?.startingItems}</Typography>
+                </Box>
+            </Paper>
+            <Paper sx={{ mt: 1, backgroundColor: "primary.main" }}>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <Box sx={{ p: 1 }}>
+                            <Typography align="center">Sanity ({maxSanity})</Typography>
+                            <Typography variant="h3" sx={{ mt: 1 }} align="center">
+                                {investigator?.sanity}
+                            </Typography>
+                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                <RemoveButton onClick={() => dispatch(decrementSanity())} />
+                                <AddButton onClick={() => dispatch(incrementSanity())} />
+                            </Box>
                         </Box>
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Box sx={{ p: 1 }}>
-                        <Typography align="center">Stamina ({maxStamina})</Typography>
-                        <Typography variant="h3" sx={{ mt: 1 }} align="center">
-                            {investigator?.stamina}
-                        </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <IconButton onClick={() => dispatch(decrementStamina())}>
-                                <Remove />
-                            </IconButton>
-                            <IconButton onClick={() => dispatch(incrementStamina())}>
-                                <Add />
-                            </IconButton>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Box sx={{ p: 1 }}>
+                            <Typography align="center">Stamina ({maxStamina})</Typography>
+                            <Typography variant="h3" sx={{ mt: 1 }} align="center">
+                                {investigator?.stamina}
+                            </Typography>
+                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                <RemoveButton onClick={() => dispatch(decrementStamina())} />
+                                <AddButton onClick={() => dispatch(incrementStamina())} />
+                            </Box>
                         </Box>
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Box sx={{ p: 1 }}>
-                        <Typography align="center">Clue Notes</Typography>
-                        <Typography variant="h3" sx={{ mt: 1 }} align="center">
-                            {investigator?.clueNotes}
-                        </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <IconButton onClick={() => dispatch(decrementClueNotes())}>
-                                <Remove />
-                            </IconButton>
-                            <IconButton onClick={() => dispatch(incrementClueNotes())}>
-                                <Add />
-                            </IconButton>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Box sx={{ p: 1 }}>
+                            <Typography align="center">Clue Notes</Typography>
+                            <Typography variant="h3" sx={{ mt: 1 }} align="center">
+                                {investigator?.clueNotes}
+                            </Typography>
+                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                <RemoveButton onClick={() => dispatch(decrementClueNotes())} />
+                                <AddButton onClick={() => dispatch(incrementClueNotes())} />
+                            </Box>
                         </Box>
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Box sx={{ p: 1 }}>
-                        <Typography align="center">Elder Signs</Typography>
-                        <Typography variant="h3" sx={{ mt: 1 }} align="center">
-                            {investigator?.elderSigns}
-                        </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <IconButton onClick={() => dispatch(decrementElderSigns())}>
-                                <Remove />
-                            </IconButton>
-                            <IconButton onClick={() => dispatch(incrementElderSigns())}>
-                                <Add />
-                            </IconButton>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Box sx={{ p: 1 }}>
+                            <Typography align="center">Elder Signs</Typography>
+                            <Typography variant="h3" sx={{ mt: 1 }} align="center">
+                                {investigator?.elderSigns}
+                            </Typography>
+                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                <RemoveButton onClick={() => dispatch(decrementElderSigns())} />
+                                <AddButton onClick={() => dispatch(incrementElderSigns())} />
+                            </Box>
                         </Box>
-                    </Box>
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Divider sx={{ my: 1 }} />
-            <Box sx={{ display: "flex", justifyContent: "space-around", width: 1 }}>
+            </Paper>
+
+            <Box sx={{ mt: 1, display: "flex", justifyContent: "space-between", width: 1 }}>
                 <Button variant="contained" onClick={() => dispatch(refreshSanity())}>
                     Refresh Sanity
                 </Button>

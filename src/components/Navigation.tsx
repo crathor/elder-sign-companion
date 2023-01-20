@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/icons-material/Menu";
-import { Alert, Button, List, ListItem, Snackbar, Drawer } from "@mui/material";
+import { Alert, List, ListItemButton, Snackbar, Drawer } from "@mui/material";
 import { useMatch, useNavigate } from "react-router-dom";
 
 export default function Navigation() {
@@ -18,7 +18,7 @@ export default function Navigation() {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {match === null ? "Select Investigator" : "Elden Ring Companion"}
+                        {match === null ? "Select Investigator" : "Elder Sign Companion"}
                     </Typography>
                     <IconButton size="large" edge="end" color="inherit" aria-label="menu" onClick={() => setOpen(true)}>
                         <Menu />
@@ -26,28 +26,24 @@ export default function Navigation() {
                 </Toolbar>
             </AppBar>
             <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-                <List>
-                    <ListItem>
-                        <Button
-                            onClick={() => {
-                                setOpen(false);
-                                navigate("/");
-                            }}
-                        >
-                            Change Investigator
-                        </Button>
-                    </ListItem>
-                    <ListItem>
-                        <Button
-                            onClick={() => {
-                                localStorage.clear();
-                                setOpenSnackbar(true);
-                                setOpen(false);
-                            }}
-                        >
-                            Clear Storage
-                        </Button>
-                    </ListItem>
+                <List sx={{ height: 1, backgroundColor: "primary.main" }}>
+                    <ListItemButton
+                        onClick={() => {
+                            setOpen(false);
+                            navigate("/");
+                        }}
+                    >
+                        Change Investigator
+                    </ListItemButton>
+                    <ListItemButton
+                        onClick={() => {
+                            localStorage.clear();
+                            setOpenSnackbar(true);
+                            setOpen(false);
+                        }}
+                    >
+                        Clear Storage
+                    </ListItemButton>
                 </List>
             </Drawer>
             <Snackbar open={openSnackbar} autoHideDuration={2000} onClose={() => setOpenSnackbar(false)}>
