@@ -3,16 +3,15 @@ import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 // Create a theme instance.
 let theme = createTheme({
     palette: {
+        mode: "dark",
         primary: {
+            light: "#C59849",
             main: "#4C443C",
-            contrastText: "#C59849",
+            dark: "#282828",
         },
         secondary: {
             main: "#322214",
             contrastText: "#C59849",
-        },
-        text: {
-            primary: "#C59849",
         },
     },
 });
