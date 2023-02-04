@@ -123,7 +123,7 @@ export default function Game() {
     }
 
     if (!gameState) {
-        return <Box sx={{ background: "red" }}>Loading Game...</Box>;
+        return null;
     }
 
     const player = gameState.players.find(

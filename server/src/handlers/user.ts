@@ -13,5 +13,4 @@ export const connectUser = (socket: Socket) => (userId: string) => {
     if (user.room) {
         socket.join(user.room);
     }
-    console.log(UserManager.users);
 };

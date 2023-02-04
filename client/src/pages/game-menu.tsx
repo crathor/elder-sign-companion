@@ -15,7 +15,6 @@ import { useNavigate } from "react-router";
 export default function GameMenu() {
     const [showJoin, setShowJoin] = useState(false);
     const [roomId, setroomId] = useState("");
-    const [players, setPlayers] = useState([]);
 
     const navigate = useNavigate();
 
@@ -35,10 +34,6 @@ export default function GameMenu() {
 
     function joinRoom() {
         socket.emit("join-room", roomId);
-    }
-
-    function toggleForm() {
-        setShowJoin(!showJoin);
     }
 
     function handleChange(e: any) {
@@ -71,6 +66,7 @@ export default function GameMenu() {
                     inputProps={{
                         style: { textAlign: "center", fontSize: "large" },
                     }}
+                    autoComplete="off"
                     value={roomId}
                     placeholder="Room ID"
                     name="roomId"
