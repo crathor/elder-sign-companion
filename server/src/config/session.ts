@@ -29,8 +29,4 @@ export default function configureSession(app: Express) {
 
     app.set("sessionConfig", sessionConfig);
     app.use(session(sessionConfig));
-    app.use((req, res, next) => {
-        console.log(req.sessionID, "SESSION ID");
-        next();
-    });
 }

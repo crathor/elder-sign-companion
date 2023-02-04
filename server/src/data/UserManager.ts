@@ -6,20 +6,24 @@ class UserManager {
         this.users = [];
     }
 
-    createUser(id: string) {
-        const user = new User(id);
+    createUser(socketId: string, userId: string) {
+        const user = new User(socketId, userId);
 
         this.users.push(user);
 
         return user;
     }
 
-    getUser(id: string) {
-        return this.users.find((user) => user.id === id);
+    getUser(userId: string) {
+        return this.users.find((user) => user.userId === userId);
     }
 
-    deleteUser(id: string) {
-        this.users = this.users.filter((user) => user.id !== id);
+    getUserBySocketId(socketId: string) {
+        return this.users.find((user) => user.socketId === socketId);
+    }
+
+    deleteUser(userId: string) {
+        this.users = this.users.filter((user) => user.userId !== userId);
     }
 }
 

@@ -1,14 +1,18 @@
-import { Investigator } from "../types";
-
 class User {
-    id: string;
+    socketId: string;
+    userId: string;
     room: string;
     playerId: string;
 
-    constructor(id: string, room?: string) {
-        this.id = id;
+    constructor(socketId: string, userId: string, room?: string) {
+        this.socketId = socketId;
         this.room = room || "";
+        this.userId = userId;
         this.playerId = "";
+    }
+
+    setUserId(userId: string) {
+        this.userId = userId;
     }
 
     setPlayerId(playerId: string) {
@@ -25,6 +29,10 @@ class User {
 
     removeRoom() {
         this.room = "";
+    }
+
+    updateSocketId(socketId: string) {
+        this.socketId = socketId;
     }
 }
 

@@ -1,5 +1,11 @@
-import { io } from "socket.io-client";
+import { Socket, io } from "socket.io-client";
 
-const socket = io("http://localhost:4000");
+let socket: Socket;
+
+if (process.env.NODE_ENV === "production") {
+    socket = io();
+} else {
+    socket = io("http://localhost:4000");
+}
 
 export default socket;

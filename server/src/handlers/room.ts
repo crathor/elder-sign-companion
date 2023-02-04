@@ -3,11 +3,10 @@ import GameManager from "../data/GameManager";
 import UserManager from "../data/UserManager";
 
 export const joinRoom = (socket: Socket) => (room: string) => {
-    console.log(GameManager.games);
-    const user = UserManager.getUser(socket.id);
+    const user = UserManager.getUserBySocketId(socket.id);
 
     if (!user) {
-        socket.emit("message", "unable to join game: couldn't find a user");
+        socket.emit("error", { type: "user", message: "could not find user" });
         return;
     }
 
@@ -17,17 +16,16 @@ export const joinRoom = (socket: Socket) => (room: string) => {
 };
 
 export const createRoom = (socket: Socket) => () => {
-    const user = UserManager.getUser(socket.id);
+    const user = UserManager.getUserBySocketId(socket.id);
 
     if (!user) {
-        socket.emit("message", "unable to create game: couldn't find a user");
+        socket.emit("error", { type: "user", message: "could not find user" });
         return;
     }
 
     const game = GameManager.createGame();
     user.setRoom(game.room);
 
-    console.log(GameManager.games);
     socket.join(game.room);
     socket.emit("joined-room", game.room);
 };

@@ -1,11 +1,4 @@
-import {
-    Box,
-    Container,
-    Divider,
-    List,
-    ListItemButton,
-    Typography,
-} from "@mui/material";
+import { Box, Container, Button, Typography, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import socket from "../lib/socket-io";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -23,7 +16,6 @@ export default function SelectPlayer() {
         });
 
         socket.on("player-added", (player) => {
-            console.log(player, "PLAYER");
             navigate(
                 `/game?roomId=${searchParams.get("roomId")}&pid=${player.id}`
             );
@@ -48,21 +40,19 @@ export default function SelectPlayer() {
                     Select Investigator
                 </Typography>
             </Box>
-            <List>
-                <Divider component="li" />
+            <Stack spacing={1}>
                 {players.map((player: any) => (
-                    <>
-                        <ListItemButton
-                            disabled={player.selected}
-                            sx={{ textAlign: "center" }}
-                            onClick={() => selectPlayer(player.id)}
-                        >
-                            {player.name}
-                        </ListItemButton>
-                        <Divider component="li" />
-                    </>
+                    <Button
+                        key={player.id}
+                        variant="contained"
+                        disabled={player.selected}
+                        sx={{ textAlign: "center" }}
+                        onClick={() => selectPlayer(player.id)}
+                    >
+                        {player.name}
+                    </Button>
                 ))}
-            </List>
+            </Stack>
         </Container>
     );
 }

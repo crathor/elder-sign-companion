@@ -1,31 +1,49 @@
 import { Socket } from "socket.io";
 import GameManager from "../data/GameManager";
-import investigators from "../data/investigators";
+import investigators from "../db/investigators";
 import UserManager from "../data/UserManager";
-import Investigator from "../data/Investigator";
+import Player from "../data/Player";
+
+const GAME_STATE_UPDATE = "game-state-update";
 
 export const selectPlayer = (socket: Socket) => (payload: any) => {
-    const user = UserManager.getUser(socket.id);
+    const user = UserManager.getUserBySocketId(socket.id);
     const game = GameManager.getGame(payload.roomId as string);
 
     if (!game || !user) {
         return;
     }
-    // TODO: sanitize input
     const investigatorIndex = investigators.findIndex(
         ({ id }) => id === payload.playerId
     );
 
     if (investigatorIndex !== -1) {
         const player = game.addPlayer(
-            new Investigator(investigators[investigatorIndex])
+            new Player(investigators[investigatorIndex])
         );
         user.setPlayerId(player.id);
         socket.emit("player-added", player);
+        socket.to(user.room).emit("player-joined", player);
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
     } else {
         socket.emit("no-player-found");
     }
 };
+
+export const changePlayer =
+    (socket: Socket) => (room: string, playerId: string) => {
+        const game = GameManager.getGame(room);
+
+        if (!game) {
+            return;
+        }
+
+        const player = game.removePlayer(playerId);
+
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.to(game.room).emit("player-left", player);
+        socket.emit("change-player", game.room);
+    };
 
 export const getPlayerList = (socket: Socket) => (room: string) => {
     const game = GameManager.getGame(room);
@@ -51,7 +69,7 @@ export const getGameState = (socket: Socket) => (room: string) => {
         return;
     }
 
-    socket.emit("game-state-updated", game);
+    socket.emit(GAME_STATE_UPDATE, game.getGameState());
 };
 
 export const decrementPlayerStat =
@@ -68,31 +86,10 @@ export const decrementPlayerStat =
             return;
         }
 
-        if (statName === "clueNotes") {
-            if (player.clueNotes <= 0) {
-                return;
-            }
-            player.clueNotes -= 1;
-        }
-        if (statName === "elderSigns") {
-            if (player.elderSigns <= 0) {
-                return;
-            }
-            player.elderSigns -= 1;
-        }
-        if (statName === "sanity") {
-            if (player.sanity <= 0) {
-                return;
-            }
-            player.sanity -= 1;
-        }
-        if (statName === "stamina") {
-            if (player.stamina <= 0) {
-                return;
-            }
-            player.stamina -= 1;
-        }
-        socket.emit("update-player-data", player);
+        player.decrementStat(statName);
+
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
     };
 
 export const incrementStat =
@@ -108,25 +105,31 @@ export const incrementStat =
         if (!player) {
             return;
         }
-        if (statName === "clueNotes") {
-            player.clueNotes += 1;
+
+        player.incrementStat(statName);
+
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
+    };
+
+export const healPlayer =
+    (socket: Socket) => (room: string, playerId: string, statName: string) => {
+        const game = GameManager.getGame(room);
+
+        if (!game) {
+            return;
         }
-        if (statName === "elderSigns") {
-            player.elderSigns += 1;
+
+        const player = game.getPlayer(playerId);
+
+        if (!player) {
+            return;
         }
-        if (statName === "sanity") {
-            if (player.sanity >= player.maxSanity) {
-                return;
-            }
-            player.sanity += 1;
-        }
-        if (statName === "stamina") {
-            if (player.stamina >= player.maxStamina) {
-                return;
-            }
-            player.stamina += 1;
-        }
-        socket.emit("update-player-data", player);
+
+        player.incrementStat(statName);
+
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
     };
 
 export const useAbility =
@@ -144,5 +147,46 @@ export const useAbility =
         }
 
         player.usedDailyAbility = true;
-        socket.emit("update-player-data", player);
+
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
+    };
+
+export const clockPhase =
+    (socket: Socket) => (room: string, direction: string) => {
+        const game = GameManager.getGame(room);
+
+        if (!game) {
+            socket.emit("error", {
+                type: "game",
+                message: "unable to find game session",
+            });
+            return;
+        }
+
+        if (direction === "back") {
+            game.prevPhase();
+        } else {
+            game.nextPhase();
+        }
+
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
+    };
+
+export const leaveGame =
+    (socket: Socket) => (room: string, playerId: string) => {
+        const game = GameManager.getGame(room);
+        const user = UserManager.getUserBySocketId(socket.id);
+
+        if (!game || !user) {
+            return;
+        }
+
+        user.removePlayerId();
+        const player = game.removePlayer(playerId);
+
+        socket.leave(game.room);
+        socket.emit("left-game");
+        socket.to(game.room).emit("player-left", player);
     };
