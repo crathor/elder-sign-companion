@@ -8,7 +8,7 @@
     "dev:server": "NODE_ENV=development nodemon ./src/main.ts",
     "dev": "concurrently \"npm:dev:*\"",
     "build:client": "cd ../client && npm run build",
-    "build": "tsc",
+    "build": "npx tsc",
     "start": "NODE_ENV=production node ./dist/main.js"
   },
   "author": "",
