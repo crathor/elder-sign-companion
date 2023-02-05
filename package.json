@@ -5,8 +5,13 @@
   "main": "main.ts",
   "scripts": {
     "postinstall": "tsc && mv -i -v ./server/public ./server/dist/ && rm -v -rf ./server/src",
-    "build": "cd ./server && npm run build"
+    "build": "cd ./server && npm run build",
+    "deploy": "git push heroku main",
+    "start": "cd server && npm start"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "tsc": "^2.0.4"
+  }
 }

@@ -9,8 +9,7 @@
     "dev": "concurrently \"npm:dev:*\"",
     "build:client": "cd ../client && npm run build",
     "build": "tsc",
-    "start": "NODE_ENV=production node ./dist/main.js",
-    "deploy": "git push heroku main"
+    "start": "NODE_ENV=production node ./dist/main.js"
   },
   "author": "",
   "license": "ISC",
