@@ -49,3 +49,8 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => {
     console.log(`listening on http://localhost:${PORT}`);
 });
+
+// todo: purge games and users that have not been used for 24 hours
+// setInterval(() => {
+//     console.log(GameManager.games);
+// }, 10000);

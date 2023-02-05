@@ -244,10 +244,10 @@ export default function Game() {
             )}
             <Box display="flex" flexWrap="wrap">
                 <PlayerStat
-                    name="Clue Notes"
-                    onIncrement={() => incrementStat("clueNotes")}
-                    onDecrement={() => decrementStat("clueNotes")}
-                    value={player.clueNotes}
+                    name="Clue Tokens"
+                    onIncrement={() => incrementStat("clueTokens")}
+                    onDecrement={() => decrementStat("clueTokens")}
+                    value={player.clueTokens}
                 />
                 <Divider orientation="vertical" flexItem />
                 <PlayerStat
@@ -328,7 +328,7 @@ function PlayerDrawer({ open, onClose, players }: any) {
 
                             <Box sx={{ textAlign: "center", flex: 1 }}>
                                 <Search />
-                                <Typography>{player.clueNotes}</Typography>
+                                <Typography>{player.clueTokens}</Typography>
                             </Box>
 
                             <Box sx={{ textAlign: "center", flex: 1 }}>

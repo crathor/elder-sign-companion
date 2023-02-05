@@ -7,14 +7,14 @@ export interface Investigator {
     startingItems: string;
     sanity: number;
     stamina: number;
-    clueNotes: number;
+    clueTokens: number;
     elderSigns: number;
 }
 
 export interface InvestigatorStats {
     sanity: number;
     stamina: number;
-    clueNotes: number;
+    clueTokens: number;
     elderSigns: number;
 }
 

@@ -9,21 +9,9 @@ export interface Investigator {
     maxSanity: number;
     stamina: number;
     maxStamina: number;
-    clueNotes: number;
+    clueTokens: number;
     elderSigns: number;
     hasDailyAbility: boolean;
     usedDailyAbility: boolean;
     dailyAbility: string;
-}
-
-export interface InvestigatorStats {
-    sanity: number;
-    stamina: number;
-    clueNotes: number;
-    elderSigns: number;
-}
-
-export interface InvestigatorData {
-    investigator: Investigator;
-    investigatorStats: InvestigatorStats;
 }

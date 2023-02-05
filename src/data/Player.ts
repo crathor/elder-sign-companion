@@ -4,7 +4,7 @@ export interface PlayerSnapshot {
     id: string;
     sanity: number;
     stamina: number;
-    clueNotes: number;
+    clueTokens: number;
     elderSigns: number;
     usedDailyAbility: boolean;
 }
@@ -20,7 +20,7 @@ class Player {
     maxSanity: number;
     stamina: number;
     maxStamina: number;
-    clueNotes: number;
+    clueTokens: number;
     elderSigns: number;
     hasDailyAbility: boolean;
     usedDailyAbility: boolean;
@@ -37,7 +37,7 @@ class Player {
         this.maxSanity = invesitagorData.maxSanity;
         this.stamina = invesitagorData.stamina;
         this.maxStamina = invesitagorData.maxStamina;
-        this.clueNotes = invesitagorData.clueNotes;
+        this.clueTokens = invesitagorData.clueTokens;
         this.elderSigns = invesitagorData.elderSigns;
         this.hasDailyAbility = invesitagorData.hasDailyAbility;
         this.usedDailyAbility = invesitagorData.usedDailyAbility;
@@ -49,7 +49,7 @@ class Player {
             id: this.id,
             sanity: this.sanity,
             stamina: this.stamina,
-            clueNotes: this.clueNotes,
+            clueTokens: this.clueTokens,
             elderSigns: this.elderSigns,
             usedDailyAbility: this.usedDailyAbility,
         };
@@ -58,14 +58,14 @@ class Player {
     setStatsFromSnapshot(playerSnapshot: PlayerSnapshot) {
         this.sanity = playerSnapshot.sanity;
         this.stamina = playerSnapshot.stamina;
-        this.clueNotes = playerSnapshot.clueNotes;
+        this.clueTokens = playerSnapshot.clueTokens;
         this.elderSigns = playerSnapshot.elderSigns;
         this.usedDailyAbility = playerSnapshot.usedDailyAbility;
     }
 
     incrementStat(statName: string) {
-        if (statName === "clueNotes") {
-            this.incrementClueNotes();
+        if (statName === "clueTokens") {
+            this.incrementclueTokens();
         }
         if (statName === "elderSigns") {
             this.incrementElderSigns();
@@ -79,8 +79,8 @@ class Player {
     }
 
     decrementStat(statName: string) {
-        if (statName === "clueNotes") {
-            this.decrementClueNotes();
+        if (statName === "clueTokens") {
+            this.decrementclueTokens();
         }
         if (statName === "elderSigns") {
             this.decrementElderSigns();
@@ -125,15 +125,15 @@ class Player {
         }
     }
 
-    incrementClueNotes() {
-        this.clueNotes++;
+    incrementclueTokens() {
+        this.clueTokens++;
     }
 
-    decrementClueNotes() {
-        if (this.clueNotes <= 0) {
-            this.clueNotes = 0;
+    decrementclueTokens() {
+        if (this.clueTokens <= 0) {
+            this.clueTokens = 0;
         } else {
-            this.clueNotes--;
+            this.clueTokens--;
         }
     }
 

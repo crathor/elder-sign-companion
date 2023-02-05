@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -24,9 +22,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Provider store={store}>
-                <RouterProvider router={router} />
-            </Provider>
+            <RouterProvider router={router} />
         </ThemeProvider>
     </React.StrictMode>
 );
