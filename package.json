@@ -1,0 +1,11 @@
+{
+  "name": "elder-sign-companion",
+  "version": "0.0.1",
+  "description": "socket-io server for elder sign companion",
+  "main": "main.ts",
+  "scripts": {
+    "build": "cd ./server && npm run build"
+  },
+  "author": "",
+  "license": "ISC"
+}
