@@ -1,4 +1,6 @@
 import express, { Express } from "express";
+// @ts-expect-error
+import fallback from "express-history-api-fallback";
 import configureSession from "./session";
 import configureCors from "./cors";
 import morgan from "morgan";
@@ -14,10 +16,10 @@ export default function configureApplication(app: Express): number {
 
     if (process.env.NODE_ENV === "production") {
         logger.info("serving static content");
-        app.use(
-            "/",
-            express.static(path.resolve(__dirname, "../../", "public"))
-        );
+        const root = path.resolve(__dirname, "../../public");
+
+        app.use(express.static(root));
+        app.use(fallback("index.html", { root }));
     }
 
     app.use(morgan("combined")); // set http logger
