@@ -189,4 +189,5 @@ export const leaveGame =
         socket.leave(game.room);
         socket.emit("left-game");
         socket.to(game.room).emit("player-left", player);
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
     };
