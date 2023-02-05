@@ -4,10 +4,14 @@
   "description": "socket-io server for elder sign companion",
   "main": "main.ts",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon ./src/main.ts",
+    "dev:ui": "cd ../client && npm run dev && cd ../",
+    "dev:server": "NODE_ENV=development nodemon ./src/main.ts",
+    "dev": "concurrently \"npm:dev:*\"",
+    "postinstall": "tsc && mv -i -v public dist/ && rm -v -rf src",
+    "build:client": "cd ../client && npm run build",
     "build": "tsc",
     "start": "NODE_ENV=production node ./dist/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "git push heroku main"
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +36,7 @@
     "@types/express": "^4.17.16",
     "@types/express-session": "^1.17.5",
     "@types/node": "^18.11.18",
+    "concurrently": "^7.6.0",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1"
   }
