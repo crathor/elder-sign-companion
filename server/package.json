@@ -7,7 +7,6 @@
     "dev:ui": "cd ../client && npm run dev && cd ../",
     "dev:server": "NODE_ENV=development nodemon ./src/main.ts",
     "dev": "concurrently \"npm:dev:*\"",
-    "postinstall": "tsc && mv -i -v public dist/ && rm -v -rf src",
     "build:client": "cd ../client && npm run build",
     "build": "tsc",
     "start": "NODE_ENV=production node ./dist/main.js",

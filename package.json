@@ -4,6 +4,7 @@
   "description": "socket-io server for elder sign companion",
   "main": "main.ts",
   "scripts": {
+    "postinstall": "tsc && mv -i -v ./server/public ./server/dist/ && rm -v -rf ./server/src",
     "build": "cd ./server && npm run build"
   },
   "author": "",
