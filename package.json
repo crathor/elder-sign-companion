@@ -8,7 +8,8 @@
     "dev:server": "NODE_ENV=development nodemon ./src/main.ts",
     "dev": "concurrently \"npm:dev:*\"",
     "build:client": "cd ./client && npm run build",
-    "build": "rm -rf dist && tsc",
+    "build:server": "tsc",
+    "build": "rm -rf dist && npm run build:client && npm run build:server",
     "start": "NODE_ENV=production node ./dist/main.js",
     "deploy": "git push heroku main"
   },

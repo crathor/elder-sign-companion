@@ -175,13 +175,13 @@ export default function Game() {
                 </Box>
             </Box>
             <Stack direction="row" spacing={1} p={1}>
-                <Button
+                {/* <Button
                     sx={{ backgroundColor: "primary.dark", flex: 1 }}
                     variant="contained"
                     onClick={() => {}}
                 >
                     Add Ally
-                </Button>{" "}
+                </Button>{" "} */}
                 {player.hasDailyAbility && (
                     <PlayerAbilityButton
                         player={player}
@@ -217,8 +217,7 @@ export default function Game() {
             <PlayerDrawer
                 open={showPlayers}
                 onClose={togglePlayersDrawer}
-                // players={players.filter(({ id }: any) => id !== player.id)}
-                players={players}
+                players={players.filter(({ id }: any) => id !== player.id)}
             />
             <PlayerHealDialog
                 open={showHealModal}
