@@ -26,7 +26,6 @@ import {
     Favorite,
     Healing,
     Menu as MenuIcon,
-    PowerOff,
     Psychology,
     Remove,
     Restore,
@@ -36,99 +35,37 @@ import {
 } from "@mui/icons-material";
 import Clock from "../components/Clock";
 import { useEffect, useMemo, useState } from "react";
-import socket from "../lib/socket-io";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import useQuery from "../hooks/useQuery";
+import useGameState from "../hooks/useGameState";
+import { useNavigate } from "react-router-dom";
 
 export default function Game() {
     const [showPlayers, setShowPlayers] = useState<boolean>(false);
-    const [gameState, setGameState] = useState<any | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [showHealModal, setShowHealModal] = useState<boolean>(false);
-    const [searchParams] = useSearchParams();
+
+    const navigate = useNavigate();
+    const params = useQuery();
 
     const showMenu = Boolean(anchorEl);
-    const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    function handleMenuClick(event: React.MouseEvent<HTMLElement>) {
         setAnchorEl(event.currentTarget);
-    };
-    const handleMenuClose = () => {
+    }
+
+    function handleMenuClose() {
         setAnchorEl(null);
-    };
-    const navigate = useNavigate();
-
-    const params = useMemo(() => {
-        return {
-            roomId: searchParams.get("roomId"),
-            pid: searchParams.get("pid"),
-        };
-    }, [searchParams]);
-
-    useEffect(() => {
-        socket.emit("get-game-state", params.roomId);
-        socket.on("game-state-update", (game) => {
-            setGameState(game);
-        });
-        socket.on("player-joined", (player) => {
-            console.log(`Player joined: ${player.name}`);
-        });
-        socket.on("player-left", (player) => {
-            console.log(`Player left: ${player.name}`);
-        });
-        socket.on("left-game", () => {
-            navigate(`/`);
-        });
-        socket.on("change-player", (roomId) => {
-            navigate(`/select-player?roomId=${roomId}`);
-        });
-
-        return () => {
-            socket.removeAllListeners();
-        };
-    }, [params]);
+    }
 
     function togglePlayersDrawer() {
         setShowPlayers((showPlayers) => !showPlayers);
     }
 
-    function decrementStat(statName: string) {
-        socket.emit("decrement-stat", params.roomId, params.pid, statName);
-    }
-
-    function incrementStat(statName: string) {
-        socket.emit("increment-stat", params.roomId, params.pid, statName);
-    }
-
-    function handleUserAbilityClick(isHealAbility: boolean) {
-        if (isHealAbility) {
-            setShowHealModal(true);
-        } else {
-            socket.emit("use-ability", params.roomId, params.pid);
-        }
-    }
-
-    function handleClockPhase(direction: string) {
-        socket.emit("clock-phase", params.roomId, direction);
-    }
-
-    function handleChangePlayer() {
-        socket.emit("change-player", params.roomId, params.pid);
-    }
-
-    function handleHealPlayer(playerId: string, statName: string) {
-        socket.emit("heal-player", params.roomId, playerId, statName);
-        socket.emit("use-ability", params.roomId, params.pid);
-    }
-
-    function handleLeaveGame() {
-        socket.emit("leave-game", params.roomId, params.pid);
-    }
+    const { gameState, player, players, playerActions, gameActions } =
+        useGameState(params.roomId, params.pid);
 
     if (!gameState) {
         return null;
     }
-
-    const player = gameState.players.find(
-        (player: any) => player.id === params.pid
-    );
 
     return (
         <Paper
@@ -166,10 +103,12 @@ export default function Game() {
                     </Typography>
 
                     <Divider />
-                    <MenuItem onClick={handleChangePlayer}>
+                    <MenuItem onClick={gameActions.handleChangePlayer}>
                         Change Character
                     </MenuItem>
-                    <MenuItem onClick={handleLeaveGame}>Leave Game</MenuItem>
+                    <MenuItem onClick={gameActions.handleLeaveGame}>
+                        Leave Game
+                    </MenuItem>
                 </Menu>
             </Toolbar>
             <Divider sx={{ m: "auto", width: "80%", borderBottomWidth: 1 }} />
@@ -198,15 +137,15 @@ export default function Game() {
             <Box display="flex" flexWrap="wrap">
                 <PlayerStat
                     name={`Sanity (${player.maxSanity})`}
-                    onIncrement={() => incrementStat("sanity")}
-                    onDecrement={() => decrementStat("sanity")}
+                    onIncrement={playerActions.incrementSanity}
+                    onDecrement={playerActions.decrementSanity}
                     value={player.sanity}
                 />
                 <Divider orientation="vertical" flexItem />
                 <PlayerStat
                     name={`Stamina (${player.maxStamina})`}
-                    onIncrement={() => incrementStat("stamina")}
-                    onDecrement={() => decrementStat("stamina")}
+                    onIncrement={playerActions.incrementStamina}
+                    onDecrement={playerActions.decrementStamina}
                     value={player.stamina}
                 />
             </Box>
@@ -217,7 +156,7 @@ export default function Game() {
                 </Box>
                 <Box display="flex" justifyContent="space-between" px={8}>
                     <IconButton
-                        onClick={() => handleClockPhase("back")}
+                        onClick={gameActions.reverseTime}
                         sx={{
                             backgroundColor: "primary.dark",
                             color: "text.secondary",
@@ -226,7 +165,7 @@ export default function Game() {
                         <Restore fontSize="large" />
                     </IconButton>
                     <IconButton
-                        onClick={() => handleClockPhase("forward")}
+                        onClick={playerActions.endTurn}
                         sx={{
                             backgroundColor: "primary.dark",
                             color: "text.secondary",
@@ -239,28 +178,28 @@ export default function Game() {
             {player.hasDailyAbility && (
                 <PlayerAbilityButton
                     player={player}
-                    onClick={handleUserAbilityClick}
+                    onClick={playerActions.useAbility}
                 />
             )}
             <Box display="flex" flexWrap="wrap">
                 <PlayerStat
                     name="Clue Tokens"
-                    onIncrement={() => incrementStat("clueTokens")}
-                    onDecrement={() => decrementStat("clueTokens")}
+                    onIncrement={playerActions.incrementClueTokens}
+                    onDecrement={playerActions.decrementClueTokens}
                     value={player.clueTokens}
                 />
                 <Divider orientation="vertical" flexItem />
                 <PlayerStat
                     name="Elder Signs"
-                    onIncrement={() => incrementStat("elderSigns")}
-                    onDecrement={() => decrementStat("elderSigns")}
+                    onIncrement={playerActions.incrementElderSigns}
+                    onDecrement={playerActions.decrementElderSigns}
                     value={player.elderSigns}
                 />
             </Box>
             <PlayerDrawer
                 open={showPlayers}
                 onClose={togglePlayersDrawer}
-                players={gameState.players}
+                players={players}
             />
             <Box p={1} width={1} display="flex">
                 <Button
@@ -275,9 +214,9 @@ export default function Game() {
             <HealDialog
                 open={showHealModal}
                 onClose={() => setShowHealModal(false)}
-                players={gameState.players}
+                players={players}
                 player={player}
-                onPlayerSelect={handleHealPlayer}
+                onPlayerSelect={playerActions.healPlayer}
             />
         </Paper>
     );
