@@ -28,6 +28,7 @@ import PlayerHealDialog from "../components/PlayerHealDialog";
 import PlayerAbilityButton from "../components/PlayerAbilityButton";
 import { useInterval } from "@restart/hooks";
 import { Stack } from "@mui/system";
+import PlayerAllyButton from "../components/PlayerAllyButton";
 
 export default function Game() {
     const [showPlayers, setShowPlayers] = useState<boolean>(false);
@@ -133,21 +134,21 @@ export default function Game() {
                     <Typography>{player.startingItems}</Typography>
                 </AccordionDetails>
             </Accordion>
-            <Box display="flex" flexWrap="wrap">
+            <Stack direction="row" spacing={1}>
                 <PlayerStat
                     name={`Sanity (${player.maxSanity})`}
                     onIncrement={playerActions.incrementSanity}
                     onDecrement={playerActions.decrementSanity}
                     value={player.sanity}
                 />
-                <Divider orientation="vertical" flexItem />
+
                 <PlayerStat
                     name={`Stamina (${player.maxStamina})`}
                     onIncrement={playerActions.incrementStamina}
                     onDecrement={playerActions.decrementStamina}
                     value={player.stamina}
                 />
-            </Box>
+            </Stack>
 
             <Box flex={1} p={1}>
                 <Box sx={{ p: 2, display: "flex", justifyContent: "center" }}>
@@ -175,13 +176,15 @@ export default function Game() {
                 </Box>
             </Box>
             <Stack direction="row" spacing={1} p={1}>
-                {/* <Button
-                    sx={{ backgroundColor: "primary.dark", flex: 1 }}
-                    variant="contained"
-                    onClick={() => {}}
-                >
-                    Add Ally
-                </Button>{" "} */}
+                <PlayerAllyButton
+                    player={player}
+                    onClick={
+                        player.hasAlly
+                            ? playerActions.addAllyToken
+                            : playerActions.addAlly
+                    }
+                    onRemoveClick={playerActions.removeAlly}
+                />
                 {player.hasDailyAbility && (
                     <PlayerAbilityButton
                         player={player}
@@ -189,21 +192,20 @@ export default function Game() {
                     />
                 )}
             </Stack>
-            <Box display="flex" flexWrap="wrap">
+            <Stack direction="row" spacing={1}>
                 <PlayerStat
                     name="Clue Tokens"
                     onIncrement={playerActions.incrementClueTokens}
                     onDecrement={playerActions.decrementClueTokens}
                     value={player.clueTokens}
                 />
-                <Divider orientation="vertical" flexItem />
                 <PlayerStat
                     name="Elder Signs"
                     onIncrement={playerActions.incrementElderSigns}
                     onDecrement={playerActions.decrementElderSigns}
                     value={player.elderSigns}
                 />
-            </Box>
+            </Stack>
             <Box p={1}>
                 <Button
                     fullWidth

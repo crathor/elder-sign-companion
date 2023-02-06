@@ -19,6 +19,9 @@ import {
     selectPlayer,
     useAbility,
     leaveGame,
+    addAlly,
+    removeAlly,
+    addAllyToken,
 } from "./handlers";
 
 const app: Express = express();
@@ -39,6 +42,9 @@ io.on("connection", (socket) => {
     socket.on("decrement-stat", decrementPlayerStat(socket));
     socket.on("increment-stat", incrementStat(socket));
     socket.on("heal-player", healPlayer(socket));
+    socket.on("add-ally", addAlly(socket));
+    socket.on("remove-ally", removeAlly(socket));
+    socket.on("add-ally-token", addAllyToken(socket));
     socket.on("use-ability", useAbility(socket));
     socket.on("leave-game", leaveGame(socket));
     socket.on("disconnect", () => {

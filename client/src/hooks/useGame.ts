@@ -59,6 +59,18 @@ export default function useGame(roomId?: string, playerId?: string) {
         socket.emit("leave-game", roomId, playerId);
     }
 
+    function addAlly() {
+        socket.emit("add-ally", roomId, playerId);
+    }
+
+    function removeAlly() {
+        socket.emit("remove-ally", roomId, playerId);
+    }
+
+    function addAllyToken() {
+        socket.emit("add-ally-token", roomId, playerId);
+    }
+
     const playerActions = useMemo(() => {
         return {
             incrementSanity: incrementStat("sanity"),
@@ -73,6 +85,9 @@ export default function useGame(roomId?: string, playerId?: string) {
                 handleHealPlayer(playerId, statName),
             useAbility,
             endTurn: handleClockPhase("forward"),
+            addAlly,
+            removeAlly,
+            addAllyToken,
         };
     }, [roomId, playerId]);
 

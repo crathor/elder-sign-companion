@@ -18,6 +18,7 @@ export default function Clock(props: ClockProps) {
                 border: "7px solid",
                 borderColor: "primary.dark",
                 borderRadius: "50%",
+                boxShadow: "inset 1px 2px 5px #000, inset -1px -2px 5px #000",
             }}
         >
             <ClockFace {...props} />

@@ -7,6 +7,8 @@ export interface PlayerSnapshot {
     clueTokens: number;
     elderSigns: number;
     usedDailyAbility: boolean;
+    hasAlly: boolean;
+    allyTokens: number;
 }
 
 class Player {
@@ -25,6 +27,8 @@ class Player {
     hasDailyAbility: boolean;
     usedDailyAbility: boolean;
     dailyAbility: string;
+    hasAlly: boolean;
+    allyTokens: number;
 
     constructor(invesitagorData: Investigator) {
         this.id = invesitagorData.id;
@@ -42,6 +46,8 @@ class Player {
         this.hasDailyAbility = invesitagorData.hasDailyAbility;
         this.usedDailyAbility = invesitagorData.usedDailyAbility;
         this.dailyAbility = invesitagorData.dailyAbility;
+        this.hasAlly = false;
+        this.allyTokens = 0;
     }
 
     getSnapshot(): PlayerSnapshot {
@@ -52,6 +58,8 @@ class Player {
             clueTokens: this.clueTokens,
             elderSigns: this.elderSigns,
             usedDailyAbility: this.usedDailyAbility,
+            hasAlly: this.hasAlly,
+            allyTokens: this.allyTokens,
         };
     }
 
@@ -61,6 +69,8 @@ class Player {
         this.clueTokens = playerSnapshot.clueTokens;
         this.elderSigns = playerSnapshot.elderSigns;
         this.usedDailyAbility = playerSnapshot.usedDailyAbility;
+        this.hasAlly = playerSnapshot.hasAlly;
+        this.allyTokens = playerSnapshot.allyTokens;
     }
 
     incrementStat(statName: string) {
@@ -155,6 +165,25 @@ class Player {
 
     resetAbility() {
         this.usedDailyAbility = false;
+    }
+
+    addAlly() {
+        this.hasAlly = true;
+    }
+
+    removeAlly() {
+        this.hasAlly = false;
+        this.allyTokens = 0;
+    }
+
+    incrementAllyToken() {
+        this.allyTokens++;
+    }
+
+    decrementAllyTokens() {
+        if (this.allyTokens > 0) {
+            this.allyTokens--;
+        }
     }
 }
 

@@ -152,6 +152,65 @@ export const useAbility =
         socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
     };
 
+export const addAlly = (socket: Socket) => (room: string, playerId: string) => {
+    const game = GameManager.getGame(room);
+
+    if (!game) {
+        return;
+    }
+
+    const player = game.getPlayer(playerId);
+
+    if (!player) {
+        return;
+    }
+
+    player.addAlly();
+
+    socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
+    socket.emit(GAME_STATE_UPDATE, game.getGameState());
+};
+
+export const addAllyToken =
+    (socket: Socket) => (room: string, playerId: string) => {
+        const game = GameManager.getGame(room);
+
+        if (!game) {
+            return;
+        }
+
+        const player = game.getPlayer(playerId);
+
+        if (!player) {
+            return;
+        }
+
+        player.incrementAllyToken();
+
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
+    };
+
+export const removeAlly =
+    (socket: Socket) => (room: string, playerId: string) => {
+        const game = GameManager.getGame(room);
+
+        if (!game) {
+            return;
+        }
+
+        const player = game.getPlayer(playerId);
+
+        if (!player) {
+            return;
+        }
+
+        player.removeAlly();
+
+        socket.to(game.room).emit(GAME_STATE_UPDATE, game.getGameState());
+        socket.emit(GAME_STATE_UPDATE, game.getGameState());
+    };
+
 export const clockPhase =
     (socket: Socket) => (room: string, direction: string) => {
         const game = GameManager.getGame(room);
