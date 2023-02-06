@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import socket from "../lib/socket-io";
 import { useNavigate } from "react-router-dom";
 
-export default function useGameState(roomId?: string, playerId?: string) {
+export default function useGame(roomId?: string, playerId?: string) {
     const [gameState, setGameState] = useState<any>(null);
     const navigate = useNavigate();
 

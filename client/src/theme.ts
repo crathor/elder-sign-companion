@@ -5,12 +5,12 @@ let theme = createTheme({
     palette: {
         mode: "dark",
         primary: {
-            light: "#C59849",
-            main: "#4C443C",
-            dark: "#282828",
+            light: "#DA2C38",
+            dark: "#4C443C",
+            main: "#282828",
         },
         secondary: {
-            main: "#322214",
+            main: "#4C443C",
             contrastText: "#C59849",
         },
     },
