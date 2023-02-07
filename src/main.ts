@@ -23,6 +23,9 @@ import {
     removeAlly,
     addAllyToken,
 } from "./handlers";
+import GameManager from "./data/GameManager";
+import moment from "moment";
+import logger from "./lib/logger";
 
 const app: Express = express();
 const server = http.createServer(app);
@@ -57,6 +60,11 @@ server.listen(PORT, () => {
 });
 
 // todo: purge games and users that have not been used for 24 hours
-// setInterval(() => {
-//     console.log(GameManager.games);
-// }, 10000);
+setInterval(() => {
+    GameManager.games.forEach((game) => {
+        if (moment().isAfter(game.expiresOn)) {
+            logger.info(`Removing Expired Game: ${game.room}`);
+            GameManager.deleteGame(game.room);
+        }
+    });
+}, 10000);

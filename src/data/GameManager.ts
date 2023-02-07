@@ -17,7 +17,6 @@ class GameManager {
 
         this.games.push(game); // save game in memory
 
-        console.log(game);
         return game; // return the game
     }
 

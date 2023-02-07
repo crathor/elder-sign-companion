@@ -1,4 +1,5 @@
 import Player, { PlayerSnapshot } from "./Player";
+import moment from "moment";
 
 export interface GameHistory {
     players: PlayerSnapshot[];
@@ -16,6 +17,7 @@ class Game {
     clock: number;
     round: number;
     history: GameHistory[];
+    expiresOn: string;
 
     constructor(room: string) {
         this.room = room;
@@ -23,6 +25,7 @@ class Game {
         this.clock = 12;
         this.round = 1;
         this.history = [];
+        this.expiresOn = moment().add(8, "hours").format();
     }
 
     isPlayerInGame(playerId: string) {
