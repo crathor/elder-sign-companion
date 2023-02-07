@@ -67,4 +67,4 @@ setInterval(() => {
             GameManager.deleteGame(game.room);
         }
     });
-}, 10000);
+}, 1000 * 3600 * 12); // 12 hours
