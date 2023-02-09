@@ -10,7 +10,6 @@
     "build:client": "cd ./client && npm run build",
     "build": "rm -rf dist && tsc",
     "start": "NODE_ENV=production node ./dist/main.js",
-    "predeploy": "npm run build:client && npm run build",
     "deploy": "npm run predeploy && git push heroku main"
   },
   "author": "",
