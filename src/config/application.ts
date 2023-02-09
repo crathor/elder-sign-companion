@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 // @ts-expect-error
 import fallback from "express-history-api-fallback";
-import configureSession from "./session";
+// import configureSession from "./session";
 import configureCors from "./cors";
 import morgan from "morgan";
 import logger from "../lib/logger";

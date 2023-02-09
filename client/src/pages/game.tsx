@@ -26,7 +26,6 @@ import PlayerDrawer from "../components/PlayerDrawer";
 import PlayerStat from "../components/PlayerStat";
 import PlayerHealDialog from "../components/PlayerHealDialog";
 import PlayerAbilityButton from "../components/PlayerAbilityButton";
-import { useInterval } from "@restart/hooks";
 import { Stack } from "@mui/system";
 import PlayerAllyButton from "../components/PlayerAllyButton";
 

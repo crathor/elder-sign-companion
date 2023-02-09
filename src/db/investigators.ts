@@ -79,7 +79,7 @@ const investigators: Investigator[] = [
         title: "The Doctor",
         ability: "Physician",
         abilityDescription:
-            "Once per day, at the start of any player's turn, Vincent may cause any 1 investigator of his choice (icluding himself) to regain 1 stamina",
+            "Once per day, at the start of any player's turn, Vincent may cause any 1 investigator of his choice (including himself) to regain 1 stamina",
         startingItems: "Common, Spell",
         sanity: 5,
         maxSanity: 5,

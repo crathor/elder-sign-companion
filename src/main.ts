@@ -22,6 +22,7 @@ import {
     addAlly,
     removeAlly,
     addAllyToken,
+    getCurrentPlayer,
 } from "./handlers";
 import GameManager from "./data/GameManager";
 import moment from "moment";
@@ -40,6 +41,7 @@ io.on("connection", (socket) => {
     socket.on("select-player", selectPlayer(socket));
     socket.on("change-player", changePlayer(socket));
     socket.on("get-player-list", getPlayerList(socket));
+    socket.on("get-current-player", getCurrentPlayer(socket));
     socket.on("get-game-state", getGameState(socket));
     socket.on("clock-phase", clockPhase(socket));
     socket.on("decrement-stat", decrementPlayerStat(socket));

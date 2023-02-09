@@ -1,36 +1,46 @@
 import { Box, Container, Button, Typography, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import socket from "../lib/socket-io";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useQuery from "../hooks/useQuery";
+import { Star } from "@mui/icons-material";
 
 export default function SelectPlayer() {
     const [players, setPlayers] = useState<any>([]);
-    const [searchParams] = useSearchParams();
+    const [currentPlayer, setCurrentPlayer] = useState<any>(null);
+    const { roomId } = useQuery();
     const navigate = useNavigate();
 
     useEffect(() => {
-        socket.emit("get-player-list", searchParams.get("roomId"));
+        socket.emit("get-player-list", roomId);
+        socket.emit("get-current-player", roomId);
 
         socket.on("player-list", (players) => {
             setPlayers(players);
         });
 
+        socket.on("current-player", (player: any) => {
+            setCurrentPlayer(player);
+        });
+
         socket.on("player-added", (player) => {
-            navigate(
-                `/game?roomId=${searchParams.get("roomId")}&pid=${player.id}`
-            );
+            navigate(`/game?roomId=${roomId}&pid=${player.id}`);
         });
 
         return () => {
             socket.removeAllListeners();
         };
-    }, [searchParams]);
+    }, [roomId]);
 
     function selectPlayer(id: string) {
-        socket.emit("select-player", {
-            roomId: searchParams.get("roomId"),
-            playerId: id,
-        });
+        if (currentPlayer) {
+            navigate(`/game?roomId=${roomId}&pid=${currentPlayer?.id}`);
+        } else {
+            socket.emit("select-player", {
+                roomId: roomId,
+                playerId: id,
+            });
+        }
     }
 
     return (
@@ -43,9 +53,17 @@ export default function SelectPlayer() {
             <Stack spacing={1}>
                 {players.map((player: any) => (
                     <Button
+                        endIcon={
+                            currentPlayer?.id === player.id ? (
+                                <Star color="warning" />
+                            ) : null
+                        }
                         key={player.id}
                         variant="contained"
-                        disabled={player.selected}
+                        disabled={
+                            (player.selected || currentPlayer) &&
+                            currentPlayer?.id !== player.id
+                        }
                         sx={{ textAlign: "center" }}
                         onClick={() => selectPlayer(player.id)}
                     >

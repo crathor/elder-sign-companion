@@ -62,6 +62,17 @@ export const getPlayerList = (socket: Socket) => (room: string) => {
     );
 };
 
+export const getCurrentPlayer = (socket: Socket) => (room: string) => {
+    const game = GameManager.getGame(room);
+    const user = UserManager.getUserBySocketId(socket.id);
+
+    if (!game || !user) {
+        return;
+    }
+
+    socket.emit("current-player", game.getPlayer(user.playerId));
+};
+
 export const getGameState = (socket: Socket) => (room: string) => {
     const game = GameManager.getGame(room);
 
