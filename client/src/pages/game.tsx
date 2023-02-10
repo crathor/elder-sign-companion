@@ -218,7 +218,7 @@ export default function Game() {
             <PlayerDrawer
                 open={showPlayers}
                 onClose={togglePlayersDrawer}
-                players={players.filter(({ id }: any) => id !== player.id)}
+                players={players}
             />
             <PlayerHealDialog
                 open={showHealModal}
