@@ -5,6 +5,7 @@ export default function useQuery() {
     const [searchParams] = useSearchParams();
 
     const params = useMemo(() => {
+        console.log("recaclulating params");
         return {
             roomId: searchParams.get("roomId") || "",
             pid: searchParams.get("pid") || "",

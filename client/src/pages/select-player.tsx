@@ -4,6 +4,7 @@ import socket from "../lib/socket-io";
 import { useNavigate } from "react-router-dom";
 import useQuery from "../hooks/useQuery";
 import { Star } from "@mui/icons-material";
+import { ES_GAME_PATH } from "../utils/constants";
 
 export default function SelectPlayer() {
     const [players, setPlayers] = useState<any>([]);
@@ -24,7 +25,7 @@ export default function SelectPlayer() {
         });
 
         socket.on("player-added", (player) => {
-            navigate(`/game?roomId=${roomId}&pid=${player.id}`);
+            navigate(`${ES_GAME_PATH}?roomId=${roomId}&pid=${player.id}`);
         });
 
         return () => {
@@ -34,7 +35,9 @@ export default function SelectPlayer() {
 
     function selectPlayer(id: string) {
         if (currentPlayer) {
-            navigate(`/game?roomId=${roomId}&pid=${currentPlayer?.id}`);
+            navigate(
+                `${ES_GAME_PATH}?roomId=${roomId}&pid=${currentPlayer?.id}`
+            );
         } else {
             socket.emit("select-player", {
                 roomId: roomId,

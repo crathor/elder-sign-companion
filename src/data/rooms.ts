@@ -1,5 +1,4 @@
 let rooms: string[] = [];
-const excludedWords = ["FUCK", "COCK"];
 
 function generateRoomId() {
     let roomId = "";
@@ -15,10 +14,7 @@ function generateRoomId() {
             })
             .join("");
 
-        if (
-            !rooms.includes(nextRoomId) &&
-            !excludedWords.includes(nextRoomId)
-        ) {
+        if (!rooms.includes(nextRoomId)) {
             roomId = nextRoomId;
             break;
         }

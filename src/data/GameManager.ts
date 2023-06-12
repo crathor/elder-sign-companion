@@ -1,31 +1,54 @@
-import Game from "./Game";
+import ElderSignGame from "./ElderSignGame";
+import TerraformingMarsGame from "./TMGame";
 
 class GameManager {
-    games: Game[];
+    elderSignGames: ElderSignGame[];
+    terraformingMarsGames: TerraformingMarsGame[];
 
     constructor() {
-        this.games = [];
+        this.elderSignGames = [];
+        this.terraformingMarsGames = [];
     }
     /**
      *
-     * @returns new game
+     * @returns new Elder Sign game
      */
-    createGame() {
+    createElderSignGame() {
         const room = this.generateRoomId(); // generate unique room
 
-        const game = new Game(room); // create a new game
+        const game = new ElderSignGame(room); // create a new game
 
-        this.games.push(game); // save game in memory
+        this.elderSignGames.push(game); // save game in memory
+
+        return game; // return the game
+    }
+    /**
+     *
+     * @returns new Terraforming Mars game
+     */
+    createTerraformingMarsGame() {
+        const room = this.generateRoomId(); // generate unique room
+
+        const game = new TerraformingMarsGame(room); // create a new game
+
+        this.terraformingMarsGames.push(game); // save game in memory
 
         return game; // return the game
     }
 
     getGame(room: string) {
-        return this.games.find((game) => game.room === room);
+        return [...this.elderSignGames, ...this.terraformingMarsGames].find(
+            (game) => game.room === room
+        );
     }
 
     deleteGame(room: string) {
-        this.games = this.games.filter((game) => game.room !== room);
+        this.elderSignGames = this.elderSignGames.filter(
+            (game) => game.room !== room
+        );
+        this.terraformingMarsGames = this.elderSignGames.filter(
+            (game) => game.room !== room
+        );
     }
 
     /**
@@ -48,7 +71,11 @@ class GameManager {
      * @returns true if room exists; false if not
      */
     gameExists(room: string) {
-        return this.games.findIndex((game) => game.room === room) !== -1;
+        return (
+            [...this.elderSignGames, ...this.terraformingMarsGames].findIndex(
+                (game) => game.room === room
+            ) !== -1
+        );
     }
 }
 

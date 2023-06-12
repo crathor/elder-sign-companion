@@ -37,9 +37,11 @@ const io = createIOServer(app, server);
 io.on("connection", (socket: Socket) => {
     socket.emit("message", "Welcome to Elder Sign Companion");
     socket.on("connect-user", connectUser(socket));
-    /** Elder Sign Events */
+    /** Shared Events */
     socket.on("create-room", createRoom(socket));
     socket.on("join-room", joinRoom(socket));
+    socket.on("leave-game", leaveGame(socket));
+    /** Elder Sign Events */
     socket.on("select-player", selectPlayer(socket));
     socket.on("change-player", changePlayer(socket));
     socket.on("get-player-list", getPlayerList(socket));
@@ -53,7 +55,6 @@ io.on("connection", (socket: Socket) => {
     socket.on("remove-ally", removeAlly(socket));
     socket.on("add-ally-token", addAllyToken(socket));
     socket.on("use-ability", useAbility(socket));
-    socket.on("leave-game", leaveGame(socket));
     socket.on("disconnect", () => {
         io.emit("message", "Player left");
     });
@@ -65,7 +66,7 @@ server.listen(PORT, () => {
 
 // todo: purge games and users that have not been used for 24 hours
 setInterval(() => {
-    GameManager.games.forEach((game) => {
+    GameManager.elderSignGames.forEach((game) => {
         if (moment().isAfter(game.expiresOn)) {
             logger.info(`Removing Expired Game: ${game.room}`);
             GameManager.deleteGame(game.room);

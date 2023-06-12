@@ -1,48 +1,16 @@
-import { useEffect, useState } from "react";
-import socket from "../lib/socket-io";
 import {
     Box,
     Button,
     Container,
-    TextField,
     Typography,
     Stack,
     Divider,
     Chip,
 } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { ES_MENU_PATH } from "../utils/constants";
 
 export default function GameMenu() {
-    const [roomId, setRoomId] = useState("");
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        socket.on("joined-room", (roomId) => {
-            navigate(`select-player?roomId=${roomId}`);
-        });
-
-        return () => {
-            socket.removeAllListeners();
-        };
-    }, []);
-
-    function createRoom() {
-        socket.emit("create-room", roomId);
-    }
-
-    function joinRoom() {
-        socket.emit("join-room", roomId);
-    }
-
-    function handleChange(e: any) {
-        if (e.target.value.length > 4) {
-            return;
-        }
-
-        setRoomId(e.target.value.toUpperCase());
-    }
-
     return (
         <Container
             sx={{
@@ -56,31 +24,21 @@ export default function GameMenu() {
         >
             <Box sx={{ p: 2, textAlign: "center" }}>
                 <Typography color="text.secondary" variant="h3" component="h1">
-                    Elder Sign Companion
+                    What game are you playing?
                 </Typography>
             </Box>
 
             <Stack sx={{ width: 1, color: "text.secondary" }} spacing={2}>
-                <TextField
-                    inputProps={{
-                        style: { textAlign: "center", fontSize: "large" },
-                    }}
-                    autoComplete="off"
-                    value={roomId}
-                    placeholder="Room ID"
-                    name="roomId"
-                    onChange={handleChange}
-                />
-
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    onClick={joinRoom}
-                >
-                    Join Game
-                </Button>
+                <Link to={ES_MENU_PATH}>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                    >
+                        Elder Sign
+                    </Button>
+                </Link>
 
                 <Box>
                     <Divider>
@@ -88,15 +46,16 @@ export default function GameMenu() {
                     </Divider>
                 </Box>
 
-                <Button
-                    fullWidth
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    onClick={createRoom}
-                >
-                    New Game
-                </Button>
+                <Link to="/terraforming-mars/menu">
+                    <Button
+                        fullWidth
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                    >
+                        Terraforming Mars
+                    </Button>
+                </Link>
             </Stack>
         </Container>
     );

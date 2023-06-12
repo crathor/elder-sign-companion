@@ -11,7 +11,7 @@ export interface MappedPlayerSnapshot {
     [key: string]: PlayerSnapshot;
 }
 
-class Game {
+class ElderSignGame {
     room: string;
     players: Player[];
     clock: number;
@@ -106,4 +106,4 @@ class Game {
     }
 }
 
-export default Game;
+export default ElderSignGame;
