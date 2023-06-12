@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { type Socket } from "socket.io";
 import UserManager from "../data/UserManager";
 
 export const connectUser = (socket: Socket) => (userId: string) => {

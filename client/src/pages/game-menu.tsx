@@ -13,8 +13,7 @@ import {
 import { useNavigate } from "react-router";
 
 export default function GameMenu() {
-    const [showJoin, setShowJoin] = useState(false);
-    const [roomId, setroomId] = useState("");
+    const [roomId, setRoomId] = useState("");
 
     const navigate = useNavigate();
 
@@ -41,7 +40,7 @@ export default function GameMenu() {
             return;
         }
 
-        setroomId(e.target.value.toUpperCase());
+        setRoomId(e.target.value.toUpperCase());
     }
 
     return (

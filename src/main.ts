@@ -27,15 +27,17 @@ import {
 import GameManager from "./data/GameManager";
 import moment from "moment";
 import logger from "./lib/logger";
+import { Socket } from "socket.io";
 
-const app: Express = express();
+const app = express();
 const server = http.createServer(app);
 const PORT = configureApplication(app);
 const io = createIOServer(app, server);
 
-io.on("connection", (socket) => {
+io.on("connection", (socket: Socket) => {
     socket.emit("message", "Welcome to Elder Sign Companion");
     socket.on("connect-user", connectUser(socket));
+    /** Elder Sign Events */
     socket.on("create-room", createRoom(socket));
     socket.on("join-room", joinRoom(socket));
     socket.on("select-player", selectPlayer(socket));

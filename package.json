@@ -4,7 +4,7 @@
   "description": "socket-io server for elder sign companion",
   "main": "main.ts",
   "scripts": {
-    "dev:ui": "cd ./client && npm run dev && cd ../",
+    "dev:ui": "cd ./client && npm run dev",
     "dev:server": "NODE_ENV=development nodemon ./src/main.ts",
     "dev": "concurrently \"npm:dev:*\"",
     "build:client": "cd ./client && npm run build",
