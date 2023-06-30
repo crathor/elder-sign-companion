@@ -1,0 +1,4 @@
+{
+    "extends": "crappy-companion-tsconfig/vite.json",
+    "references": [{ "path": "./tsconfig.node.json" }]
+}

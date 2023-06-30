@@ -1,0 +1,12 @@
+{
+    "extends": "crappy-companion-tsconfig/base.json",
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist",
+        "module": "commonjs",
+        "forceConsistentCasingInFileNames": false,
+        "sourceMap": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"]
+}
