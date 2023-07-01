@@ -1,8 +1,8 @@
 {
-  "name": "crappy-companion-types",
+  "name": "@crath0r/elder-sign-types",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import socket from "../lib/socket-io";
 import { useNavigate } from "react-router-dom";
-import { ElderSignGameBase, ElderSignPlayer } from "crappy-companion-types";
+import { ElderSignGameBase, ElderSignPlayer } from "@crath0r/elder-sign-types";
 
 export default function useGame(roomId?: string, playerId?: string) {
     const [gameState, setGameState] = useState<ElderSignGameBase | null>(null);

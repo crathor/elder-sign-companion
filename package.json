@@ -1,18 +1,20 @@
 {
-  "name": "crappy-companion",
+  "name": "@crath0r/crappy-companion",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
-    "dev": "lerna run dev",
+    "dev:server": "npm run dev -w=companion-game-server", 
+    "dev:es": "npm run dev -w=elder-sign-companion", 
+    "dev:tfm": "npm run dev -w=terraforming-mars-companion", 
     "build": "lerna run build",
     "test": "lerna run test",
     "lint": "lerna run lint"
   },
   "dependencies": {
-    "lerna": "^7.0.2"
+    "lerna": "^7.1.1"
   }
 }

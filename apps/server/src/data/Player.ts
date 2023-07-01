@@ -1,4 +1,4 @@
-import { ElderSignPlayer, ElderSignPlayerSnapshot, Investigator } from "crappy-companion-types";
+import { ElderSignPlayer, ElderSignPlayerSnapshot, Investigator } from "@crath0r/elder-sign-types";
 
 class Player implements ElderSignPlayer {
     id: string;

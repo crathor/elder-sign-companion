@@ -1,4 +1,4 @@
-import { TMPlayerData, TMPlayerStats } from "crappy-companion-types";
+import { TMPlayerData, TMPlayerStats } from "@crath0r/terraforming-mars-types";
 
 const PRODUCTION = "production";
 const RESOURCES = "resources";

@@ -6,7 +6,7 @@ import Player from "../data/Player";
 import ElderSignGame from "../data/ElderSignGame";
 import TMPlayer from "../data/TMPlayer";
 import TerraformingMarsGame from "../data/TMGame";
-import { TMPlayerData } from "crappy-companion-types";
+import { TMPlayerData } from "@crath0r/terraforming-mars-types";
 
 const GAME_STATE_UPDATE = "game-state-update";
 

@@ -1,5 +1,5 @@
 {
-    "extends": "crappy-companion-tsconfig/base.json",
+    "extends": "@crath0r/tsconfig/base.json",
     "compilerOptions": {
         "rootDir": "src",
         "outDir": "dist",

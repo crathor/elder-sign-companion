@@ -1,7 +1,7 @@
 import { ELDER_SIGN } from "../constants";
 import Player from "./Player";
 import moment from "moment";
-import { ElderSignGameBase, ElderSignGameHistory } from "crappy-companion-types";
+import { ElderSignGameBase, ElderSignGameHistory } from "@crath0r/elder-sign-types";
 
 class ElderSignGame implements ElderSignGameBase {
     room: string;

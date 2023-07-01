@@ -1,4 +1,4 @@
-import { Investigator } from "crappy-companion-types";
+import { Investigator } from "@crath0r/elder-sign-types";
 
 const investigators: Investigator[] = [
     {
